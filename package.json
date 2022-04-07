@@ -9,7 +9,7 @@
     "start": "yarn build && yarn server",
     "client": "webpack serve",
     "server": "tsc -p tsconfig.server.json && node dist/server/",
-    "dev": "concurrently \"nodemon\" \"yarn client\"",
+    "dev": "concurrently \"yarn server-dev\" \"yarn client\"",
     "server-dev": "nodemon --watch src"
   },
   "devDependencies": {
