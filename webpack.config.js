@@ -22,6 +22,7 @@ module.exports = {
   entry: './src/client/index.tsx',
   mode: isDev ? 'development' : 'production',
   output: {
+    publicPath: isDev ? '/' : '/static/',
     path: path.join(__dirname, 'dist/client'),
     filename: './js/[name].bundle.js'
   },
@@ -66,6 +67,11 @@ module.exports = {
   devServer: {
     port: 9000,
     hot: true,
+    historyApiFallback: true,
+    static: {
+      directory: path.join(__dirname, 'public'),
+      publicPath: '/'
+    },
     proxy: {
       '/api/**': {
         target: 'http://localhost:8050',
