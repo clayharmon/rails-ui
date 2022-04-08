@@ -4,6 +4,7 @@ import express, {
   Response,
   Router
 } from 'express';
+import path from 'path';
 import createError from 'http-errors';
 import expressWs from 'express-ws';
 
@@ -12,12 +13,6 @@ expressWs(app);
 
 import actionRouter from './routes/actions';
 import terminalRouter from './routes/terminals';
-
-app.use(express.static('dist/client'));
-app.get('/', (_req: Request, res: Response) => {
-  console.log('sending index.html');
-  res.sendFile('/dist/client/index.html');
-});
 
 app.use(express.json());
 
@@ -28,8 +23,14 @@ apiV1.use('/terminals', terminalRouter);
 
 app.use('/api/v1/', apiV1);
 
-app.use((_req, _res, next) => {
+app.use('/api/v1/*', (_req, _res, next) => {
   next(createError(404));
+});
+
+app.use('/static/', express.static('dist/client'));
+app.get('/*', (_req: Request, res: Response) => {
+  console.log('sending index.html');
+  res.sendFile(path.join(__dirname, '../client', 'index.html'));
 });
 
 // error handler

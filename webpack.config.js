@@ -22,6 +22,7 @@ module.exports = {
   entry: './src/client/index.tsx',
   mode: isDev ? 'development' : 'production',
   output: {
+    publicPath: '/static/',
     path: path.join(__dirname, 'dist/client'),
     filename: './js/[name].bundle.js'
   },
