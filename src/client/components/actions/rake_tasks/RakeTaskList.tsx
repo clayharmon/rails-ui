@@ -1,13 +1,31 @@
 import { Searcher } from 'fast-fuzzy';
 import React, { useEffect, useState } from 'react';
-import { Box, List, IconButton, InputAdornment, ListItem, ListItemText, TextField } from '@mui/material';
+import {
+  Box,
+  List,
+  IconButton,
+  InputAdornment,
+  ListItem,
+  ListItemText,
+  TextField
+} from '@mui/material';
 import { PlayCircle, Refresh, Search } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
 
-const RakeTaskNav: React.FC = () => {
+interface RakeTaskNavProps {
+  currentTask?: string;
+}
+
+const RakeTaskNav: React.FC<RakeTaskNavProps> = ({ currentTask }) => {
+  const navigate = useNavigate();
+
   const [rakeTasks, setRakeTasks] = useState([
-    { title: 'rake db:migrate', description: 'Migrate your database' },
-    { title: 'rake cache:clear', description: 'Clear your cache' },
-    { title: 'rake tmp:clear', description: 'Clear cache, socket and screenshot files' }
+    { task: 'db:migrate', description: 'Migrate your database' },
+    { task: 'cache:clear', description: 'Clear your cache' },
+    {
+      task: 'tmp:clear',
+      description: 'Clear cache, socket and screenshot files'
+    }
   ]);
 
   const [filterText, setFilterText] = useState('');
@@ -15,7 +33,9 @@ const RakeTaskNav: React.FC = () => {
 
   useEffect(() => {
     if (filterText) {
-      const searcher = new Searcher(rakeTasks, { keySelector: (obj) => obj.title });
+      const searcher = new Searcher(rakeTasks, {
+        keySelector: (obj) => obj.task
+      });
       setFilteredRakeTasks(searcher.search(filterText));
     } else {
       setFilteredRakeTasks(rakeTasks);
@@ -25,7 +45,7 @@ const RakeTaskNav: React.FC = () => {
   useEffect(() => {
     setFilterText('');
     setFilteredRakeTasks(rakeTasks);
-  }, [rakeTasks])
+  }, [rakeTasks]);
 
   return (
     <Box>
@@ -43,25 +63,32 @@ const RakeTaskNav: React.FC = () => {
                 <InputAdornment position="start">
                   <Search />
                 </InputAdornment>
-              ),
+              )
             }}
             onChange={(e) => setFilterText(e.target.value)}
           />
-          <IconButton sx={{height: 'min-content' }}><Refresh /></IconButton>
+          <IconButton sx={{ height: 'min-content' }}>
+            <Refresh />
+          </IconButton>
         </Box>
-        {filteredRakeTasks.map(rakeTask => (
+        {filteredRakeTasks.map((rakeTask) => (
           <ListItem
             button
-            key={rakeTask.title}
-            selected={false}
+            key={rakeTask.task}
+            selected={currentTask === rakeTask.task}
+            onClick={() => navigate(rakeTask.task)}
             secondaryAction={
-              <IconButton edge="end" aria-label="comments" onClick={() => console.log('Starting rake task')}>
+              <IconButton
+                edge="end"
+                aria-label="comments"
+                onClick={() => console.log('Starting rake task')}
+              >
                 <PlayCircle color="primary" />
               </IconButton>
             }
           >
             <ListItemText
-              primary={rakeTask.title}
+              primary={rakeTask.task}
               secondary={rakeTask.description}
               onClick={() => console.log('Opening rake task detail')}
             />

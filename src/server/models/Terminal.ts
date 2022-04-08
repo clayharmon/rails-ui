@@ -20,7 +20,7 @@ class Terminal {
       name: 'xterm-256color',
       cols: 80,
       rows: 24,
-      cwd: this.env.PWD,
+      cwd: '/Users/clay.harmon/Development/apm_bundle/apps/property/',
       env: this.env,
       encoding: 'utf8'
     };

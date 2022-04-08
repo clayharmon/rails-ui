@@ -11,7 +11,8 @@ const createTerminalRoute: RequestHandler = (_req, res) => {
   res.end();
 };
 
-const wsTerminalroute = async (ws: WebSocket, req: Request) => {
+const wsTerminalroute = (ws: WebSocket, req: Request) => {
+  console.log('here');
   const pid = parseInt(req.params.pid, 10);
   const term = terminalStore.getByPid(pid);
   console.log('Connected to terminal ' + term.pid);

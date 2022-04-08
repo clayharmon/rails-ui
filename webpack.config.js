@@ -73,7 +73,7 @@ module.exports = {
       publicPath: '/'
     },
     proxy: {
-      '/api/**': {
+      '/api': {
         target: 'http://localhost:8050',
         secure: false,
         changeOrigin: true

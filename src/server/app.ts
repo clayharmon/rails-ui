@@ -8,11 +8,12 @@ import path from 'path';
 import createError from 'http-errors';
 import expressWs from 'express-ws';
 
-const app = express();
-expressWs(app);
+const appBase = express();
+const { app } = expressWs(appBase);
 
 import actionRouter from './routes/actions';
 import terminalRouter from './routes/terminals';
+import { WebSocket } from 'ws';
 
 app.use(express.json());
 
@@ -21,8 +22,11 @@ const apiV1 = Router();
 apiV1.use('/actions', actionRouter);
 apiV1.use('/terminals', terminalRouter);
 
-app.use('/api/v1/', apiV1);
+app.ws('/api/v1/something', (ws: WebSocket, req: Request) => {
+  console.log('here');
+});
 
+app.use('/api/v1/', apiV1);
 app.use('/api/v1/*', (_req, _res, next) => {
   next(createError(404));
 });

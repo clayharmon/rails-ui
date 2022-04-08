@@ -1,17 +1,18 @@
 import React from 'react';
-import { Grid } from '@mui/material'
+import { Grid } from '@mui/material';
 
 import RakeTaskList from './RakeTaskList';
-import RakeTaskDetail from './RakeTaskDetail';
+import { Outlet, useParams } from 'react-router-dom';
 
 const RakeTaskContainer: React.FC = () => {
+  const { task } = useParams();
   return (
     <Grid container spacing={1}>
       <Grid item xs={3}>
-        <RakeTaskList />
+        <RakeTaskList currentTask={task} />
       </Grid>
       <Grid item xs={9}>
-        <RakeTaskDetail />
+        <Outlet context={task} />
       </Grid>
     </Grid>
   );
