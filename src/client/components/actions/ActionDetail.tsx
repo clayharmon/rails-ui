@@ -1,12 +1,7 @@
 import { Grid } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 
-import TaskList from './TaskList';
-
-export interface Task {
-  task: string;
-  description: string;
-}
+import RakeTaskNav from './rake_tasks/RakeTaskNav';
 
 const getTasks = async (): Promise<Task[]> => {
   const data = await fetch('/api/v1/actions/tasks');
@@ -24,17 +19,14 @@ const ActionDetail: React.FC = ({}) => {
     fetchTasks();
   }, []);
   return (
-    <>
-      <h1>Action Detail</h1>
-      <Grid container spacing={1}>
-        <Grid item xs={2}>
-          <TaskList tasks={tasks} />
-        </Grid>
-        <Grid item xs={10}>
-          <div></div>
-        </Grid>
+    <Grid container spacing={1}>
+      <Grid item xs={2}>
+        <RakeTaskNav tasks={tasks} />
       </Grid>
-    </>
+      <Grid item xs={10}>
+        <div></div>
+      </Grid>
+    </Grid>
   );
 };
 export default ActionDetail;
