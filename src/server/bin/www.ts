@@ -7,6 +7,8 @@
 import http from 'http';
 import 'colors';
 import app from '../app';
+import { emoji } from 'node-emoji';
+import open from 'open';
 
 const normalizePort = (val: string) => {
   const port = parseInt(val, 10);
@@ -57,10 +59,9 @@ const onError = (error: any) => {
 const onListening = () => {
   const addr = server.address();
   const bind = typeof addr === 'string' ? `${addr}` : `${addr?.port}`;
-  console.log(
-    'Server started:'.white,
-    `http://localhost:${bind}`.blue.underline
-  );
+  const url = `http://localhost:${bind}`;
+  console.log(emoji.diamonds, ' Opening server at:'.white, url.red.underline);
+  open(url);
 };
 /**
  * Listen on provided port, on all network interfaces.
