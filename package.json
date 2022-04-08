@@ -5,7 +5,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "build": "webpack --mode production",
+    "build": "NODE_ENV=production webpack",
     "build-server": "tsc -p tsconfig.server.json",
     "start": "yarn build && yarn server",
     "client": "webpack serve",
